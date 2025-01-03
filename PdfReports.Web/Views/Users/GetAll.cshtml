@@ -1,0 +1,53 @@
+﻿@model List<User>
+
+<div class="container-sidebar justify-content-center text-center">
+    <div class="create-search-sidebar">
+        <a class="btn btn-success w-100 employee-create"
+           asp-controller="Users"
+           asp-action="Create">
+            Create New Employee
+        </a>
+        <hr />
+    </div>
+
+    <div class="table-container col-9">
+        <h3>List of all employees:</h3>
+
+        <table class="table table-secondary table-striped table-bordered border-secondary-subtle mt-4 shadow">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Position</th>
+                    <th>Seniority</th>
+                    <th>Days Off <br />(V | P | U | SL)</th>
+                    <th>Employment Start Date</th>
+                    <th>Employment End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model)
+                {
+                    <tr id="@item.Id">
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>@item.Position.Title</td>
+                        <td>@item.Position.SeniorityLevel</td>
+                        <td>@item.DaysOff.Vacation | @item.DaysOff.Paid | @item.DaysOff.Unpaid | @item.DaysOff.SickLeave</td>
+                        <td>@item.EmploymentStartDate</td>
+                        <td>
+                            @(item.EmploymentEndDate.HasValue
+                                ? @item.EmploymentEndDate.Value
+                                : string.Empty)
+                        </td>
+                        @* <td>
+                            <a href="#" class="employee-delete" data-employee-id="@item.Id">
+                                <img src="~/icons/delete.png" />
+                            </a>
+                        </td> *@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

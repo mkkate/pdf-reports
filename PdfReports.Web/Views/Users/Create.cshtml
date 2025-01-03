@@ -1,0 +1,79 @@
+﻿@model User
+
+<div class="card shadow container w-75 mt-4 employee-form">
+    <div class="card-body justify-content-center">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="@Model.FirstName" class="control-label"></label>
+                    <input asp-for="@Model.FirstName" class="form-control" />
+                    <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.LastName" class="control-label"></label>
+                    <input asp-for="@Model.LastName" class="form-control" />
+                    <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="@Model.Address" class="control-label"></label>
+                    <input asp-for="@Model.Address" class="form-control" />
+                    <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="@Model.Position.Title" class="control-label"></label>
+                    <input asp-for="@Model.Position.Title" class="form-control" />
+                    <span asp-validation-for="@Model.Position.Title" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.Position.SeniorityLevel" class="control-label"></label>
+                    <input asp-for="@Model.Position.SeniorityLevel" class="form-control" />
+                    <span asp-validation-for="@Model.Position.SeniorityLevel" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="@Model.EmploymentStartDate" class="control-label"></label>
+                    <input asp-for="@Model.EmploymentStartDate" class="form-control" />
+                    <span asp-validation-for="@Model.EmploymentStartDate" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.EmploymentEndDate" class="control-label"></label>
+                    <input asp-for="@Model.EmploymentEndDate" class="form-control" />
+                    <span asp-validation-for="@Model.EmploymentEndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="@Model.DaysOff.Vacation" class="control-label"></label>
+                    <input asp-for="@Model.DaysOff.Vacation" class="form-control" />
+                    <span asp-validation-for="@Model.DaysOff.Vacation" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.DaysOff.Paid" class="control-label"></label>
+                    <input asp-for="@Model.DaysOff.Paid" class="form-control" />
+                    <span asp-validation-for="@Model.DaysOff.Paid" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.DaysOff.Unpaid" class="control-label"></label>
+                    <input asp-for="@Model.DaysOff.Unpaid" class="form-control" />
+                    <span asp-validation-for="@Model.DaysOff.Unpaid" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.DaysOff.SickLeave" class="control-label"></label>
+                    <input asp-for="@Model.DaysOff.SickLeave" class="form-control" />
+                    <span asp-validation-for="@Model.DaysOff.SickLeave" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <div class="col text-center">
+                    <input type="submit" value="Submit" class="btn btn-primary col-4 col-form-label" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
