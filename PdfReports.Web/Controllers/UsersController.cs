@@ -11,7 +11,6 @@ namespace PdfReports.Web.Controllers
         public UsersController(UserService userService)
         {
             _userService = userService;
-            _userService.GenerateUsers(10);
         }
 
         public IActionResult GetAll()
@@ -20,6 +19,7 @@ namespace PdfReports.Web.Controllers
             return View(users);
         }
 
+        #region Create
         public IActionResult Create()
         {
             var user = new User();
@@ -35,5 +35,6 @@ namespace PdfReports.Web.Controllers
 
             return RedirectToAction(nameof(GetAll));
         }
+        #endregion
     }
 }

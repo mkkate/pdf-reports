@@ -7,6 +7,11 @@ namespace PdfReports.Web.Services
     {
         public List<User> Users { get; set; } = new();
 
+        public UserService()
+        {
+            Users = GenerateUsers(10);
+        }
+
         public List<User> GenerateUsers(int count)
         {
             for (int i = 0; i < count; i++)
@@ -45,6 +50,7 @@ namespace PdfReports.Web.Services
 
         public User Create(User userModel)
         {
+            userModel.Id = Users.Count + 1;
             Users.Add(userModel);
             return userModel;
         }
