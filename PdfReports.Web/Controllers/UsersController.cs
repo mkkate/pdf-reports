@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PdfReports.Web.Models;
 using PdfReports.Web.Services;
 
 namespace PdfReports.Web.Controllers
@@ -19,22 +18,12 @@ namespace PdfReports.Web.Controllers
             return View(users);
         }
 
-        #region Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult GeneratePdfReport()
         {
-            var user = new User();
-            return View(user);
+            var report = _userService.GeneratePdfReport();
+
+            return File(report, "application/pdf");
         }
-
-        [HttpPost]
-        public IActionResult Create(User userModel)
-        {
-            var user = _userService.Create(userModel);
-
-            //pdf report for generated user
-
-            return RedirectToAction(nameof(GetAll));
-        }
-        #endregion
     }
 }

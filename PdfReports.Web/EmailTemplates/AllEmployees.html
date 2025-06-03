@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 80px 36px 60px 36px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            page-break-inside: auto;
+        }
+
+        thead {
+            /*key for repeating header*/
+            display: table-header-group;
+        }
+
+        tbody {
+            display: table-row-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .warning {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h2>Employees Report</h2>
+    <p>Hi, welcome to the "PDF creation" tutorial. This is the list of all employees currently working in the company. Fasten your seatbelts and enjoy the flight!</p>
+    <p class="warning"><strong>Note:</strong> Data is highly sensitive.</p>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2">Employee</th>
+                <th rowspan="2">Start Date</th>
+                <th rowspan="2">End Date</th>
+                <th colspan="4">Days Off</th>
+                <th colspan="2" rowspan="2">Position</th>
+            </tr>
+            <tr>
+                <th>V</th>
+                <th>P</th>
+                <th>U</th>
+                <th>SL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{EMPLOYEE_ROWS}}
+        </tbody>
+    </table>
+</body>
+</html>

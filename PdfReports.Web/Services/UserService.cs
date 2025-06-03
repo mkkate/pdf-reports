@@ -1,5 +1,13 @@
 ﻿using Bogus;
+using iText.Html2pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Event;
+using iText.Layout;
+using PdfReports.Web.EventHandlers;
 using PdfReports.Web.Models;
+using System.Net;
+using System.Text;
 
 namespace PdfReports.Web.Services
 {
@@ -9,7 +17,7 @@ namespace PdfReports.Web.Services
 
         public UserService()
         {
-            Users = GenerateUsers(10);
+            Users = GenerateUsers(40);
         }
 
         public List<User> GenerateUsers(int count)
@@ -17,7 +25,7 @@ namespace PdfReports.Web.Services
             for (int i = 0; i < count; i++)
             {
                 var faker = new Faker();
-                
+
                 Users.Add(new User
                 {
                     Id = i + 1,
@@ -48,11 +56,57 @@ namespace PdfReports.Web.Services
             return Users;
         }
 
-        public User Create(User userModel)
+        public byte[] GeneratePdfReport()
         {
-            userModel.Id = Users.Count + 1;
-            Users.Add(userModel);
-            return userModel;
+            var users = GetAll();
+            var htmlTemplate = File.ReadAllText("EmailTemplates/AllEmployees.html");
+            const string dateFormat = "dd-MM-yyyy";
+
+            var rows = new StringBuilder();
+            foreach (var user in users)
+            {
+                rows.AppendLine($@"
+                    <tr>
+                        <td>{user.Id}</td>
+                        <td>{WebUtility.HtmlEncode(user.FirstName)} {WebUtility.HtmlEncode(user.LastName)}</td>
+                        <td>{WebUtility.HtmlEncode(user.EmploymentStartDate.ToString(dateFormat))}</td>
+                        <td>{WebUtility.HtmlEncode(user.EmploymentEndDate.HasValue ? user.EmploymentEndDate.Value.ToString(dateFormat) : "-")}</td>
+                        <td>{WebUtility.HtmlEncode(user.DaysOff.Vacation.ToString())}</td>
+                        <td>{WebUtility.HtmlEncode(user.DaysOff.Paid.ToString())}</td>
+                        <td>{WebUtility.HtmlEncode(user.DaysOff.Unpaid.ToString())}</td>
+                        <td>{WebUtility.HtmlEncode(user.DaysOff.SickLeave.ToString())}</td>
+                        <td>{WebUtility.HtmlEncode(user.Position.SeniorityLevel)}</td>
+                        <td>{WebUtility.HtmlEncode(user.Position.Title)}</td>
+                    </tr>");
+            }
+
+            htmlTemplate = htmlTemplate.Replace("{{EMPLOYEE_ROWS}}", rows.ToString());
+
+            using (var stream = new MemoryStream())
+            {
+                var pdfWriter = new PdfWriter(stream);
+                var pdfDocument = new PdfDocument(pdfWriter);
+
+                // PDF document metadata
+                pdfDocument.GetDocumentInfo()
+                    .SetTitle("Employees report")
+                    .SetAuthor("Katarina Mladenovic")
+                    .SetSubject("Report of all employees")
+                    .SetKeywords("employees, report, IT company");
+
+                pdfDocument.AddEventHandler(PdfDocumentEvent.START_PAGE, new HeaderEventHandler());
+                pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterEventHandler());
+
+                var document = new Document(pdfDocument, PageSize.A4, false);
+                document.SetMargins(100, 36, 60, 36);
+
+                var converterProperties = new ConverterProperties();
+                HtmlConverter.ConvertToPdf(htmlTemplate, pdfDocument, converterProperties);
+
+                pdfDocument.Close();
+
+                return stream.ToArray();
+            }
         }
     }
 }

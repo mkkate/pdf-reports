@@ -1,7 +1,4 @@
-﻿using PdfReports.Web.Constants;
-using System.ComponentModel;
-
-namespace PdfReports.Web.Models
+﻿namespace PdfReports.Web.Models
 {
     public class DaysOff
     {
@@ -11,7 +8,6 @@ namespace PdfReports.Web.Models
 
         public int? Unpaid { get; set; }
 
-        [DisplayName(DisplayNameConstants.SickLeave)]
         public int? SickLeave { get; set; }
     }
 }
