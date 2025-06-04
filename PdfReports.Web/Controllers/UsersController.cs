@@ -23,7 +23,7 @@ namespace PdfReports.Web.Controllers
         {
             var report = _userService.GeneratePdfReport();
 
-            return File(report, "application/pdf");
+            return File(report, "application/pdf", $"Employees_report_{DateTime.UtcNow.ToShortDateString()}.pdf");
         }
     }
 }
